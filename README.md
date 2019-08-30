@@ -26,7 +26,7 @@ With Maven
 ```
 With Gradle
 ```groovy
-compile 'com.github.mongobee:mongobee:0.5'
+compile 'com.github.mongobee:mongobee:0.15'
 ```
 
 ### Usage 
