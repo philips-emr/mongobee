@@ -23,16 +23,14 @@ public class ChangeEntryIndexDao {
         collection.createIndex(new Document()
                 .append(ChangeEntry.KEY_CHANGEID, 1)
                 .append(ChangeEntry.KEY_AUTHOR, 1),
-                new IndexOptions().unique(true)
-                );
+                new IndexOptions().unique(true));
     }
 
     public Document findRequiredChangeAndAuthorIndex(MongoDatabase db) {
         final MongoCollection<Document> indexes = db.getCollection("system.indexes");
         final Document index = indexes.find(new Document()
                 .append("ns", db.getName() + "." + changelogCollectionName)
-                .append("key", new Document().append(ChangeEntry.KEY_CHANGEID, 1).append(ChangeEntry.KEY_AUTHOR, 1))
-                ).first();
+                .append("key", new Document().append(ChangeEntry.KEY_CHANGEID, 1).append(ChangeEntry.KEY_AUTHOR, 1))).first();
 
         return index;
     }

@@ -23,9 +23,9 @@ public class ChangeLogComparator implements Comparator<Class<?>>, Serializable {
         final ChangeLog c2 = o2.getAnnotation(ChangeLog.class);
 
         final String val1 = o1.getCanonicalName().contains(c1.order()) ? o1.getCanonicalName() : c1.order();
-        final String val2 =  o2.getCanonicalName().contains(c2.order()) ? o2.getCanonicalName() : c2.order();
+        final String val2 = o2.getCanonicalName().contains(c2.order()) ? o2.getCanonicalName() : c2.order();
 
-        if ((val1 == null) && (val2 == null)){
+        if ((val1 == null) && (val2 == null)) {
             return 0;
         } else if (val1 == null) {
             return -1;

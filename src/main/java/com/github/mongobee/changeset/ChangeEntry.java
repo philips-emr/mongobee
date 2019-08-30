@@ -5,8 +5,7 @@ import java.util.Date;
 import org.bson.Document;
 
 /**
- * Entry in the changes collection log {@link com.github.mongobee.Mongobee#DEFAULT_CHANGELOG_COLLECTION_NAME}
- * Type: entity class.
+ * Entry in the changes collection log {@link com.github.mongobee.Mongobee#DEFAULT_CHANGELOG_COLLECTION_NAME} Type: entity class.
  *
  * @author lstolowski
  * @since 27/07/2014
@@ -36,10 +35,10 @@ public class ChangeEntry {
         final Document entry = new Document();
 
         entry.append(KEY_CHANGEID, this.changeId)
-        .append(KEY_AUTHOR, this.author)
-        .append(KEY_TIMESTAMP, this.timestamp)
-        .append(KEY_CHANGELOGCLASS, this.changeLogClass)
-        .append(KEY_CHANGESETMETHOD, this.changeSetMethodName);
+                .append(KEY_AUTHOR, this.author)
+                .append(KEY_TIMESTAMP, this.timestamp)
+                .append(KEY_CHANGELOGCLASS, this.changeLogClass)
+                .append(KEY_CHANGESETMETHOD, this.changeSetMethodName);
 
         return entry;
     }

@@ -30,12 +30,11 @@ public class ChangeService {
 
     private final String changeLogsBasePackage;
 
-
     public ChangeService(String changeLogsBasePackage) {
         this.changeLogsBasePackage = changeLogsBasePackage;
     }
 
-    public List<Class<?>> fetchChangeLogs(){
+    public List<Class<?>> fetchChangeLogs() {
         final Reflections reflections = new Reflections(changeLogsBasePackage);
         final Set<Class<?>> changeLogs = reflections.getTypesAnnotatedWith(ChangeLog.class);
         final List<Class<?>> filteredChangeLogs = (List<Class<?>>) filterByActiveProfiles(changeLogs);
@@ -54,8 +53,8 @@ public class ChangeService {
         return filteredChangeSets;
     }
 
-    public boolean isRunAlwaysChangeSet(Method changesetMethod){
-        if (changesetMethod.isAnnotationPresent(ChangeSet.class)){
+    public boolean isRunAlwaysChangeSet(Method changesetMethod) {
+        if (changesetMethod.isAnnotationPresent(ChangeSet.class)) {
             final ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
             return annotation.runAlways();
         } else {
@@ -63,8 +62,8 @@ public class ChangeService {
         }
     }
 
-    public ChangeEntry createChangeEntry(Method changesetMethod){
-        if (changesetMethod.isAnnotationPresent(ChangeSet.class)){
+    public ChangeEntry createChangeEntry(Method changesetMethod) {
+        if (changesetMethod.isAnnotationPresent(ChangeSet.class)) {
             final ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
 
             return new ChangeEntry(
@@ -89,7 +88,7 @@ public class ChangeService {
     private List<?> filterByActiveProfiles(Collection<? extends AnnotatedElement> annotated) {
         final List<AnnotatedElement> filtered = new ArrayList<>();
         for (final AnnotatedElement element : annotated) {
-            filtered.add( element);
+            filtered.add(element);
         }
         return filtered;
     }

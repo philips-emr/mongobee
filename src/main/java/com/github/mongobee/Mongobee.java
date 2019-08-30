@@ -23,7 +23,7 @@ import com.mongodb.client.MongoDatabase;
  * @author lstolowski
  * @since 26/07/2014
  */
-public class Mongobee  {
+public class Mongobee {
     private static final Logger logger = LoggerFactory.getLogger(Mongobee.class);
 
     private static final String DEFAULT_CHANGELOG_COLLECTION_NAME = "dbchangelog";
@@ -40,10 +40,12 @@ public class Mongobee  {
     private final MongoClient mongoClient;
     private String dbName;
 
-
     /**
-     * <p>Constructor takes db.mongodb.MongoClient object as a parameter.
-     * </p><p>For more details about <tt>MongoClient</tt> please see com.mongodb.MongoClient docs
+     * <p>
+     * Constructor takes db.mongodb.MongoClient object as a parameter.
+     * </p>
+     * <p>
+     * For more details about <tt>MongoClient</tt> please see com.mongodb.MongoClient docs
      * </p>
      *
      * @param mongoClient database connection client
@@ -245,8 +247,7 @@ public class Mongobee  {
     /**
      * Overwrites a default mongobee changelog collection hardcoded in DEFAULT_CHANGELOG_COLLECTION_NAME.
      *
-     * CAUTION! Use this method carefully - when changing the name on a existing system,
-     * your changelogs will be executed again on your MongoDB instance
+     * CAUTION! Use this method carefully - when changing the name on a existing system, your changelogs will be executed again on your MongoDB instance
      *
      * @param changelogCollectionName a new changelog collection name
      * @return Mongobee object for fluent interface
@@ -268,8 +269,7 @@ public class Mongobee  {
     }
 
     /**
-     * Closes the Mongo instance used by Mongobee.
-     * This will close either the connection Mongobee was initiated with or that which was internally created.
+     * Closes the Mongo instance used by Mongobee. This will close either the connection Mongobee was initiated with or that which was internally created.
      */
     public void close() {
         dao.close();
