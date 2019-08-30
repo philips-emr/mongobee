@@ -82,17 +82,6 @@
 		</plugins>
 	</build>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>http://repo.portal.whebdc.com.br/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>http://repo.portal.whebdc.com.br/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
-
 	<profiles>
 		<profile>
 			<id>release</id>
