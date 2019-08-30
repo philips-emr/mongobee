@@ -20,37 +20,16 @@ With Maven
 ```xml
 <dependency>
   <groupId>com.github.mongobee</groupId>
-  <artifactId>mongobee</artifactId>
-  <version>0.13</version>
+  <artifactId>mongobee-philips</artifactId>
+  <version>0.15</version>
 </dependency>
 ```
 With Gradle
 ```groovy
-compile 'org.javassist:javassist:3.18.2-GA' // workaround for ${javassist.version} placeholder issue*
-compile 'com.github.mongobee:mongobee:0.13'
+compile 'com.github.mongobee:mongobee:0.5'
 ```
 
-### Usage with Spring
-
-You need to instantiate Mongobee object and provide some configuration.
-If you use Spring can be instantiated as a singleton bean in the Spring context. 
-In this case the migration process will be executed automatically on startup.
-
-```java
-@Bean
-public Mongobee mongobee(){
-  Mongobee runner = new Mongobee("mongodb://YOUR_DB_HOST:27017/DB_NAME");
-  runner.setDbName("yourDbName");         // host must be set if not set in URI
-  runner.setChangeLogsScanPackage(
-       "com.example.yourapp.changelogs"); // the package to be scanned for changesets
-  
-  return runner;
-}
-```
-
-
-### Usage without Spring
-Using mongobee without a spring context has similar configuration but you have to remember to run `execute()` method to start a migration process.
+### Usage 
 
 ```java
 Mongobee runner = new Mongobee("mongodb://YOUR_DB_HOST:27017/DB_NAME");
@@ -68,13 +47,6 @@ runner.setChangelogCollectionName(logColName);   // default is dbchangelog, coll
 runner.setLockCollectionName(lockColName);       // default is mongobeelock, collection used during migration process
 runner.setEnabled(shouldBeEnabled);              // default is true, migration won't start if set to false
 ```
-
-MongoDB URI format:
-```
-mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database[.collection]][?options]]
-```
-[More about URI](http://mongodb.github.io/mongo-java-driver/3.5/javadoc/)
-
 
 ### Creating change logs
 
@@ -138,110 +110,4 @@ public void someChange2(MongoDatabase db) {
   mycollection.insertOne(doc);
 }
 
-@ChangeSet(order = "003", id = "someChangeWithDb", author = "testAuthor")
-public void someChange3(DB db) {
-  // This is deprecated in mongo-java-driver 3.x, use MongoDatabase instead
-  // type: com.mongodb.DB : original MongoDB driver v. 2.x, operations allowed by driver are possible
-  // example: 
-  DBCollection mycollection = db.getCollection("mycollection");
-  BasicDBObject doc = new BasicDBObject().append("test", "1");
-  mycollection .insert(doc);
-}
-
-@ChangeSet(order = "004", id = "someChangeWithJongo", author = "testAuthor")
-public void someChange4(Jongo jongo) {
-  // type: org.jongo.Jongo : Jongo driver can be used, used for simpler notation
-  // example:
-  MongoCollection mycollection = jongo.getCollection("mycollection");
-  mycollection.insert("{test : 1}");
-}
-
-@ChangeSet(order = "005", id = "someChangeWithSpringDataTemplate", author = "testAuthor")
-public void someChange5(MongoTemplate mongoTemplate) {
-  // type: org.springframework.data.mongodb.core.MongoTemplate
-  // Spring Data integration allows using MongoTemplate in the ChangeSet
-  // example:
-  mongoTemplate.save(myEntity);
-}
-
-@ChangeSet(order = "006", id = "someChangeWithSpringDataTemplate", author = "testAuthor")
-public void someChange5(MongoTemplate mongoTemplate, Environment environment) {
-  // type: org.springframework.data.mongodb.core.MongoTemplate
-  // type: org.springframework.core.env.Environment
-  // Spring Data integration allows using MongoTemplate and Environment in the ChangeSet
-}
-```
-
-### Using Spring profiles
-     
-**mongobee** accepts Spring's `org.springframework.context.annotation.Profile` annotation. If a change log or change set class is annotated  with `@Profile`, 
-then it is activated for current application profiles.
-
-_Example 1_: annotated change set will be invoked for a `dev` profile
-```java
-@Profile("dev")
-@ChangeSet(author = "testuser", id = "myDevChangest", order = "01")
-public void devEnvOnly(DB db){
-  // ...
-}
-```
-_Example 2_: all change sets in a changelog will be invoked for a `test` profile
-```java
-@ChangeLog(order = "1")
-@Profile("test")
-public class ChangelogForTestEnv{
-  @ChangeSet(author = "testuser", id = "myTestChangest", order = "01")
-  public void testingEnvOnly(DB db){
-    // ...
-  } 
-}
-```
-
-#### Enabling @Profile annotation (option)
-      
-To enable the `@Profile` integration, please inject `org.springframework.core.env.Environment` to you runner.
-
-```java      
-@Bean @Autowired
-public Mongobee mongobee(Environment environment) {
-  Mongobee runner = new Mongobee(uri);
-  runner.setSpringEnvironment(environment)
-  //... etc
-}
-```
-
-## Known issues
-
-##### Mongo java driver conflicts
-
-**mongobee** depends on `mongo-java-driver`. If your application has mongo-java-driver dependency too, there could be a library conflicts in some cases.
-
-**Exception**:
-```
-com.mongodb.WriteConcernException: { "serverUsed" : "localhost" , 
-"err" : "invalid ns to index" , "code" : 10096 , "n" : 0 , 
-"connectionId" : 955 , "ok" : 1.0}
-```
-
-**Workaround**:
-
-You can exclude mongo-java-driver from **mongobee**  and use your dependency only. Maven example (pom.xml) below:
-```xml
-<dependency>
-    <groupId>org.mongodb</groupId>
-    <artifactId>mongo-java-driver</artifactId>
-    <version>3.0.0</version>
-</dependency>
-
-<dependency>
-  <groupId>com.github.mongobee</groupId>
-  <artifactId>mongobee</artifactId>
-  <version>0.9</version>
-  <exclusions>
-    <exclusion>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongo-java-driver</artifactId>
-    </exclusion>
-  </exclusions>
-</dependency>
 ```
