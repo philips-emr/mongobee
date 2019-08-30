@@ -13,45 +13,45 @@ import com.mongodb.client.model.IndexOptions;
  */
 public class ChangeEntryIndexDao {
 
-  private String changelogCollectionName;
-	  
-  public ChangeEntryIndexDao(String changelogCollectionName) {
-	this.changelogCollectionName = changelogCollectionName;
-  }
+    private String changelogCollectionName;
 
-  public void createRequiredUniqueIndex(MongoCollection<Document> collection) {
-    collection.createIndex(new Document()
-            .append(ChangeEntry.KEY_CHANGEID, 1)
-            .append(ChangeEntry.KEY_AUTHOR, 1),
-        new IndexOptions().unique(true)
-    );
-  }
-
-  public Document findRequiredChangeAndAuthorIndex(MongoDatabase db) {
-    MongoCollection<Document> indexes = db.getCollection("system.indexes");
-    Document index = indexes.find(new Document()
-        .append("ns", db.getName() + "." + changelogCollectionName)
-        .append("key", new Document().append(ChangeEntry.KEY_CHANGEID, 1).append(ChangeEntry.KEY_AUTHOR, 1))
-    ).first();
-
-    return index;
-  }
-
-  public boolean isUnique(Document index) {
-    Object unique = index.get("unique");
-    if (unique != null && unique instanceof Boolean) {
-      return (Boolean) unique;
-    } else {
-      return false;
+    public ChangeEntryIndexDao(String changelogCollectionName) {
+        this.changelogCollectionName = changelogCollectionName;
     }
-  }
 
-  public void dropIndex(MongoCollection<Document> collection, Document index) {
-    collection.dropIndex(index.get("name").toString());
-  }
+    public void createRequiredUniqueIndex(MongoCollection<Document> collection) {
+        collection.createIndex(new Document()
+                .append(ChangeEntry.KEY_CHANGEID, 1)
+                .append(ChangeEntry.KEY_AUTHOR, 1),
+                new IndexOptions().unique(true)
+                );
+    }
 
-  public void setChangelogCollectionName(String changelogCollectionName) {
-	this.changelogCollectionName = changelogCollectionName;
-  }
+    public Document findRequiredChangeAndAuthorIndex(MongoDatabase db) {
+        final MongoCollection<Document> indexes = db.getCollection("system.indexes");
+        final Document index = indexes.find(new Document()
+                .append("ns", db.getName() + "." + changelogCollectionName)
+                .append("key", new Document().append(ChangeEntry.KEY_CHANGEID, 1).append(ChangeEntry.KEY_AUTHOR, 1))
+                ).first();
+
+        return index;
+    }
+
+    public boolean isUnique(Document index) {
+        final Object unique = index.get("unique");
+        if ((unique != null) && (unique instanceof Boolean)) {
+            return (Boolean) unique;
+        } else {
+            return false;
+        }
+    }
+
+    public void dropIndex(MongoCollection<Document> collection, Document index) {
+        collection.dropIndex(index.get("name").toString());
+    }
+
+    public void setChangelogCollectionName(String changelogCollectionName) {
+        this.changelogCollectionName = changelogCollectionName;
+    }
 
 }

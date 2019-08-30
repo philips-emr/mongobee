@@ -29,18 +29,16 @@ public class ChangeService {
     private static final String DEFAULT_PROFILE = "default";
 
     private final String changeLogsBasePackage;
-    private final List<String> activeProfiles;
 
 
     public ChangeService(String changeLogsBasePackage) {
         this.changeLogsBasePackage = changeLogsBasePackage;
-        this.activeProfiles = asList(DEFAULT_PROFILE);
     }
 
     public List<Class<?>> fetchChangeLogs(){
-        Reflections reflections = new Reflections(changeLogsBasePackage);
-        Set<Class<?>> changeLogs = reflections.getTypesAnnotatedWith(ChangeLog.class);
-        List<Class<?>> filteredChangeLogs = (List<Class<?>>) filterByActiveProfiles(changeLogs);
+        final Reflections reflections = new Reflections(changeLogsBasePackage);
+        final Set<Class<?>> changeLogs = reflections.getTypesAnnotatedWith(ChangeLog.class);
+        final List<Class<?>> filteredChangeLogs = (List<Class<?>>) filterByActiveProfiles(changeLogs);
 
         Collections.sort(filteredChangeLogs, new ChangeLogComparator());
 
@@ -58,7 +56,7 @@ public class ChangeService {
 
     public boolean isRunAlwaysChangeSet(Method changesetMethod){
         if (changesetMethod.isAnnotationPresent(ChangeSet.class)){
-            ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
+            final ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
             return annotation.runAlways();
         } else {
             return false;
@@ -67,7 +65,7 @@ public class ChangeService {
 
     public ChangeEntry createChangeEntry(Method changesetMethod){
         if (changesetMethod.isAnnotationPresent(ChangeSet.class)){
-            ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
+            final ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
 
             return new ChangeEntry(
                     annotation.id(),
@@ -89,8 +87,8 @@ public class ChangeService {
     }
 
     private List<?> filterByActiveProfiles(Collection<? extends AnnotatedElement> annotated) {
-        List<AnnotatedElement> filtered = new ArrayList<>();
-        for (AnnotatedElement element : annotated) {
+        final List<AnnotatedElement> filtered = new ArrayList<>();
+        for (final AnnotatedElement element : annotated) {
             filtered.add( element);
         }
         return filtered;
@@ -101,7 +99,7 @@ public class ChangeService {
         final List<Method> changesetMethods = new ArrayList<>();
         for (final Method method : allMethods) {
             if (method.isAnnotationPresent(ChangeSet.class)) {
-                String id = method.getAnnotation(ChangeSet.class).id();
+                final String id = method.getAnnotation(ChangeSet.class).id();
                 if (changeSetIds.contains(id)) {
                     throw new MongobeeChangeSetException(String.format("Duplicated changeset id found: '%s'", id));
                 }

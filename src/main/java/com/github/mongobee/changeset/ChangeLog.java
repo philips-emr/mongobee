@@ -14,10 +14,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ChangeLog {
-  /**
-   * Sequence that provide an order for changelog classes.
-   * If not set, then canonical name of the class is taken and sorted alphabetically, ascending.
-   * @return order
-   */
-  String order() default "";
+    /**
+     * Sequence that provide an order for changelog classes.
+     * If not set, then canonical name of the class is taken and sorted alphabetically, ascending.
+     * @return order
+     */
+    String order() default "";
 }
