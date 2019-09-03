@@ -6,13 +6,13 @@
 	<servers>
 		<server>
 			<id>releases</id>
-			<username>${nexus_user}</username>
-			<password>${nexus_pass}</password>
+			<username>${nexus.user}</username>
+			<password>${nexus.pass}</password>
 		</server>
 		<server>
 			<id>snapshots</id>
-			<username>${nexus_user}</username>
-			<password>${nexus_pass}</password>
+			<username>${nexus.user}</username>
+			<password>${nexus.pass}</password>
 		</server>
 	</servers>
 
