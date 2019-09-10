@@ -11,7 +11,7 @@
 
 	<groupId>com.github.mongobee</groupId>
 	<artifactId>mongobee-philips</artifactId>
-	<version>0.15</version>
+	<version>0.16</version>
 
 	<licenses>
 		<license>
@@ -82,17 +82,7 @@
 		</plugins>
 	</build>
 
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<url>http://repo.portal.whebdc.com.br/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<url>http://repo.portal.whebdc.com.br/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-
+	
 	<profiles>
 		<profile>
 			<id>release</id>
