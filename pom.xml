@@ -93,5 +93,43 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+	<profiles>
+		<profile>
+			<id>releases</id>
+			<repositories>
+				<repository>
+					<id>releases</id>
+					<url>http://repo.portal.whebdc.com.br/content/repositories/releases/</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
+		<profile>
+			<id>snapshots</id>
+			<activation>
+				<property>
+					<name>!snapshots.off</name>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>snapshots</id>
+					<url>http://repo.portal.whebdc.com.br/content/repositories/snapshots/</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
+
 
 </project>
