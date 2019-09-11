@@ -84,11 +84,13 @@
 
 	<distributionManagement>
 		<repository>
-			<id>releases</id>
+		    <id>nexus</id>
+   			<name>maven-releases</name>
 			<url>http://repo.portal.whebdc.com.br/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
+		    <id>nexus</id>
+   			<name>maven-snapshots</name>
 			<url>http://repo.portal.whebdc.com.br/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
@@ -130,6 +132,8 @@
 			</repositories>
 		</profile>
 	</profiles>
+
+	
 
 
 </project>
